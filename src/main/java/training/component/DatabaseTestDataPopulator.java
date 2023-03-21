@@ -12,7 +12,7 @@ import java.util.List;
 
 @Component
 public class DatabaseTestDataPopulator implements CommandLineRunner {
-    private ToDoRepository todoRespository;
+    private final ToDoRepository todoRespository;
 
     public DatabaseTestDataPopulator(@Autowired ToDoRepository _todoRespository){
         this.todoRespository = _todoRespository;

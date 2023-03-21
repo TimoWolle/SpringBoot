@@ -1,12 +1,8 @@
 package training.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import training.entity.ToDo;
-import training.respository.ToDoRepository;
 import training.service.ToDoService;
 
 import java.util.List;
