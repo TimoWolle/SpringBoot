@@ -8,7 +8,7 @@ import lombok.*;
 @Setter
 
 @Entity
-public class ToDo {
+public class ToDo{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -16,5 +16,5 @@ public class ToDo {
     private String description;
     private Integer prio;
     private String dueDate;
-    private TodoStatus status;
+    private ToDoStatus status;
 }

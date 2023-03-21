@@ -1,13 +1,13 @@
 package training.entity;
 
-public enum TodoStatus {
+public enum ToDoStatus {
     IN_PROGRESS("In Arbeit"),
     COMPLETED("Fertiggestellt"),
     CANCELLED("Abgebrochen");
 
     private final String name;
 
-    TodoStatus(String name) {
+    ToDoStatus(String name) {
         this.name = name;
     }
 

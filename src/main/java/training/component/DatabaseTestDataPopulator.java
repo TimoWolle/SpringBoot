@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import training.entity.ToDo;
-import training.entity.TodoStatus;
+import training.entity.ToDoStatus;
 import training.respository.ToDoRepository;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class DatabaseTestDataPopulator implements CommandLineRunner {
         todo1.setDescription("Milch, Brot, Eier kaufen");
         todo1.setPrio(1);
         todo1.setDueDate("2023-03-25");
-        todo1.setStatus(TodoStatus.CANCELLED);
+        todo1.setStatus(ToDoStatus.CANCELLED);
 
         todoList.add(todo1);
 
@@ -39,7 +39,7 @@ public class DatabaseTestDataPopulator implements CommandLineRunner {
         todo2.setDescription("Ins Fitnessstudio gehen");
         todo2.setPrio(2);
         todo2.setDueDate("2023-03-27");
-        todo2.setStatus(TodoStatus.IN_PROGRESS);
+        todo2.setStatus(ToDoStatus.IN_PROGRESS);
 
         todoList.add(todo2);
 
@@ -49,7 +49,7 @@ public class DatabaseTestDataPopulator implements CommandLineRunner {
         todo3.setDescription("Zum Augenarzt gehen");
         todo3.setPrio(3);
         todo3.setDueDate("2023-04-02");
-        todo3.setStatus(TodoStatus.COMPLETED);
+        todo3.setStatus(ToDoStatus.COMPLETED);
 
         todoList.add(todo3);
 
@@ -59,7 +59,7 @@ public class DatabaseTestDataPopulator implements CommandLineRunner {
         todo4.setDescription("Auto Verkaufen und Reinigen");
         todo4.setPrio(2);
         todo4.setDueDate("2024-03-25");
-        todo4.setStatus(TodoStatus.IN_PROGRESS);
+        todo4.setStatus(ToDoStatus.IN_PROGRESS);
 
         todoRespository.saveAll(todoList);
         todoRespository.save(todo4);
