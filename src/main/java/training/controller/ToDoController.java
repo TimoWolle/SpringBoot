@@ -18,7 +18,7 @@ public class ToDoController {
         return toDoService.insert(_todo);
     }
 
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     public ToDo update(@PathVariable("id") Long id, @RequestBody ToDo _todo){
         return toDoService.update(id ,_todo);
     }
