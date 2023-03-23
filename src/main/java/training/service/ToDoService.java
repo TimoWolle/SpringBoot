@@ -31,7 +31,7 @@ public class ToDoService {
         todoRespository.deleteById(id);
     }
     public ToDo getTodo(long id){
-        return todoRespository.findById(id).orElseThrow(()->new EntityNotFoundException("ID gibts nicht"));
+        return todoRespository.findById(id).orElseThrow(()->new EntityNotFoundException(String.valueOf(id)));
     }
     public List<ToDo> getAllTodos(){
         return todoRespository.findAll();
