@@ -2,7 +2,12 @@ package training.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import training.dto.ModelMapperConfig;
+import training.dto.ToDoCreate;
+import training.dto.ToDoUpdate;
 import training.entity.ToDo;
 import training.service.ToDoService;
 
@@ -16,8 +21,8 @@ public class ToDoController {
     private final ModelMapper mapper;
 
     @PostMapping
-    public ToDo insert(@RequestBody ToDo _todo){
-        return toDoService.insert(_todo);
+    public void insert(@Valid @RequestBody ToDoCreate _toDoCreate){
+        this.toDoService.insert(mapper.map(_toDoCreate, ToDo.class));
     }
 
     @PutMapping
