@@ -1,5 +1,6 @@
 package training.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import training.entity.ToDo;
@@ -30,7 +31,7 @@ public class ToDoService {
         todoRespository.deleteById(id);
     }
     public ToDo getTodo(long id){
-        return todoRespository.findById(id).orElse(null);
+        return todoRespository.findById(id).orElseThrow(()->new EntityNotFoundException("ID gibts nicht"));
     }
     public List<ToDo> getAllTodos(){
         return todoRespository.findAll();
