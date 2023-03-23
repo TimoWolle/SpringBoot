@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -19,6 +20,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(ErrorResponse.create(rex, HttpStatus.INTERNAL_SERVER_ERROR, rex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(EntityNotFoundException.class)
     protected ResponseEntity<Object> entityNotFoundException(RuntimeException exception, WebRequest request) {
         String msg = getMessageSource().getMessage("exception.id_not_found", new Object[] {exception.getLocalizedMessage()}, LocaleContextHolder.getLocale());

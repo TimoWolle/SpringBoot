@@ -2,7 +2,11 @@ package training.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.lang.annotation.Around;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import training.dto.ToDoCreate;
 import training.dto.ToDoUpdate;
@@ -10,6 +14,7 @@ import training.entity.ToDo;
 import training.service.ToDoService;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/todos")
@@ -17,6 +22,12 @@ import java.util.List;
 public class ToDoController {
     private final ToDoService toDoService;
     private final ModelMapper mapper;
+
+    HttpHeaders headers = new HttpHeaders();
+
+    {
+        headers.add("Wunderbärchen", "Alles zu ihrer zufriedenheit.");
+    }
 
     @PostMapping
     public void insert(@Valid @RequestBody ToDoCreate _toDoCreate){
@@ -43,8 +54,9 @@ public class ToDoController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@Valid @PathVariable("id") Long id){
+    public ResponseEntity delete(@Valid @PathVariable("id") Long id){
         toDoService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping
@@ -90,7 +102,11 @@ public class ToDoController {
     //endregion
 
     @GetMapping("/{id}")
-    public ToDo getToDo(@PathVariable("id") Long id){
-        return toDoService.getTodo(id);
+    public ResponseEntity<ToDo> getToDo(@PathVariable("id") Long id){
+
+        ToDo todo = toDoService.getTodo(id);
+
+        return new ResponseEntity<>(todo, HttpStatus.OK);
+
     }
 }

@@ -2,6 +2,8 @@ package training.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.lang.annotation.Around;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import training.entity.ToDo;
 import training.entity.ToDoStatus;
@@ -30,6 +32,7 @@ public class ToDoService {
     public void delete(long id){
         todoRespository.deleteById(id);
     }
+
     public ToDo getTodo(long id){
         return todoRespository.findById(id).orElseThrow(()->new EntityNotFoundException(String.valueOf(id)));
     }
