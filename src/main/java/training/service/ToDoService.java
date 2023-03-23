@@ -17,14 +17,12 @@ public class ToDoService {
     public ToDo insert(ToDo _todo){
         return todoRespository.save(_todo);
     }
-    public ToDo update(long id, ToDo _todo){
-        ToDo existingToDo = todoRespository.findById(id).orElseThrow();
+    public ToDo update(ToDo _todo){
+        ToDo existingToDo = todoRespository.findById(_todo.getId()).orElseThrow();
 
-        existingToDo.setTitel(_todo.getTitel());
         existingToDo.setStatus(_todo.getStatus());
         existingToDo.setPrio(_todo.getPrio());
         existingToDo.setDueDate(_todo.getDueDate());
-        existingToDo.setDescription(_todo.getDescription());
 
         return todoRespository.save(existingToDo);
     }

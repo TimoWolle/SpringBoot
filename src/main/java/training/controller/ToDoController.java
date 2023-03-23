@@ -1,5 +1,6 @@
 package training.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import training.entity.ToDo;
@@ -12,19 +13,34 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ToDoController {
     private final ToDoService toDoService;
+    private final ModelMapper mapper;
 
     @PostMapping
     public ToDo insert(@RequestBody ToDo _todo){
         return toDoService.insert(_todo);
     }
 
-    @PutMapping("/{id}")
-    public ToDo update(@PathVariable("id") Long id, @RequestBody ToDo _todo){
-        return toDoService.update(id ,_todo);
+    @PutMapping
+    public ToDo update(@Valid @RequestBody ToDoUpdate _toDoUpdate){
+        ToDo toDo = this.toDoService.getTodo(_toDoUpdate.getId());
+        mapper.map(_toDoUpdate, toDo);
+
+
+        //Das untere ist eine Property list, da könntest du ganz genau spezifizieren wie man mappt
+        //Das brauchst du, falls deine Properties nicht gleich heißen
+
+//        mapper.typeMap(ToDoUpdate.class, ToDo.class)
+//                .addMappings(mapper -> {
+//                    mapper.map(ToDoUpdate::getPrio, ToDo::setPrio);
+//                    mapper.map(ToDoUpdate::getDueDate, ToDo::setDueDate);
+//                    mapper.map(ToDoUpdate::getStatus, ToDo::setStatus);
+//                });
+
+        return toDoService.update(toDo);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") Long id){
+    public void delete(@Valid @PathVariable("id") Long id){
         toDoService.delete(id);
     }
 
