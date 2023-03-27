@@ -21,7 +21,7 @@ public class ToDoService {
         return todoRespository.save(_todo);
     }
     public ToDo update(ToDo _todo){
-        ToDo existingToDo = todoRespository.findById(_todo.getId()).orElseThrow();
+        ToDo existingToDo = getTodo(_todo.getId());
 
         existingToDo.setStatus(_todo.getStatus());
         existingToDo.setPrio(_todo.getPrio());

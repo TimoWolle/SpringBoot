@@ -14,7 +14,8 @@ import org.springframework.stereotype.Component;
 public class ExecutionTimeAspect {
     private static final Logger logger = LoggerFactory.getLogger(ExecutionTimeAspect.class);
 
-    @Around("bean(toDo*)")
+    //@Around("bean(toDoController)")
+    @Around("execution(* training.service.ToDoService.getTodo(..))")
     public Object measureExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
         long startTime = System.currentTimeMillis();
 
@@ -27,4 +28,3 @@ public class ExecutionTimeAspect {
         return result;
     }
 }
-

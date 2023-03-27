@@ -1,6 +1,7 @@
 package training.component;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import training.entity.ToDo;
@@ -13,6 +14,8 @@ import java.util.List;
 @Component
 public class DatabaseTestDataPopulator implements CommandLineRunner {
     private final ToDoRepository todoRespository;
+    @Value("${start.var}")
+    private String STARTVAR;
 
     public DatabaseTestDataPopulator(@Autowired ToDoRepository _todoRespository){
         this.todoRespository = _todoRespository;
@@ -64,5 +67,8 @@ public class DatabaseTestDataPopulator implements CommandLineRunner {
         todoRespository.saveAll(todoList);
         todoRespository.save(todo4);
         todoRespository.delete(todo2);
+
+
+        System.out.println(STARTVAR);
     }
 }
