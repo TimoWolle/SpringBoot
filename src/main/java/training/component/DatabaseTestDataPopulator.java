@@ -15,6 +15,7 @@ import java.util.List;
 public class DatabaseTestDataPopulator implements CommandLineRunner {
     private final ToDoRepository todoRespository;
     @Value("${start.var}")
+
     private String STARTVAR;
 
     public DatabaseTestDataPopulator(@Autowired ToDoRepository _todoRespository){

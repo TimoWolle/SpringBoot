@@ -1,6 +1,7 @@
 package training.controller;
 
 import jakarta.validation.Valid;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.annotation.Around;
 import org.modelmapper.ModelMapper;
@@ -14,7 +15,6 @@ import training.entity.ToDo;
 import training.service.ToDoService;
 
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/todos")
@@ -22,12 +22,6 @@ import java.util.Objects;
 public class ToDoController {
     private final ToDoService toDoService;
     private final ModelMapper mapper;
-
-    HttpHeaders headers = new HttpHeaders();
-
-    {
-        headers.add("Wunderbärchen", "Alles zu ihrer zufriedenheit.");
-    }
 
     @PostMapping
     public void insert(@Valid @RequestBody ToDoCreate _toDoCreate){
