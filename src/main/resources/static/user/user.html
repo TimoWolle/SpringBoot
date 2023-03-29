@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Willkommen auf der Seite</h1>
+
+<p>Diese Seite ist für alle Benutzer zugänglich.</p>
+
+<div th:if="${#request.isUserInRole('ROLE_ADMIN') or #request.isUserInRole('ROLE_DEV')}">
+    <p>Als Administrator haben Sie zusätzliche Berechtigungen.</p>
+
+    <div th:if="${#request.isUserInRole('ROLE_DEV')}">
+        <p>Als Dev sogar noch ein bisschen mehr</p>
+    </div>
+
+</div>
+
+<!-- andere Inhalte -->
+<form action="/logout" method="post">
+    <button type="submit">Logout</button>
+</form>
+</body>
+</html>

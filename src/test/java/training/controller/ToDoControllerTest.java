@@ -1,19 +1,24 @@
 package training.controller;
 
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
 import training.entity.ToDo;
 import training.entity.ToDoStatus;
 import training.service.ToDoService;
 import org.modelmapper.ModelMapper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -41,22 +46,17 @@ class ToDoControllerTest {
         toDo1.setStatus(ToDoStatus.IN_PROGRESS);
     }
 
-    @Test
-    void insert() {
-    }
-
-    @Test
-    void update() {
-    }
-
+    @WithMockUser
     @Test
     void delete() throws Exception {
         mockMvc.perform(get("/api/todos/1"))
                 .andExpect(status().isOk());
     }
 
+    @WithMockUser
     @Test
     void getToDo() throws Exception {
+
         when(toDoService.getTodo(1)).thenReturn(toDo1);
 
         mockMvc.perform(get("/api/todos/1"))
@@ -71,37 +71,27 @@ class ToDoControllerTest {
         verify(toDoService, times(1)).getTodo(1);
     }
 
+    @WithMockUser
     @Test
     public void getAllToDos() throws Exception
     {
-        //LISTE NOCH EINFÜGEN when(this.toDoService.getAllTodos()).thenReturn(this.);
+
+        List<ToDo> toDoList = new ArrayList<>();
+        toDoList.add(toDo1);
+        toDo1.setId(2L);
+        toDoList.add(toDo1);
+        toDo1.setId(3L);
+        toDoList.add(toDo1);
+        when(this.toDoService.getAllTodos()).thenReturn(toDoList);
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/todo"))
+                        .get("/api/todos"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(
                         """
                                 [
-                                    {
-                                        "id": 1,
-                                        "title": "Schulung",
-                                        "description": "Springboot",
-                                        "date": "März",
-                                        "status": true
-                                    },
-                                    {
-                                        "id": 2,
-                                        "title": "Termin",
-                                        "description": "Hausarzt",
-                                        "date": "Morgen",
-                                        "status": false
-                                    },
-                                    {
-                                        "id": 3,
-                                         "title": "Termin",
-                                        "description": "Hausarzt",
-                                        "date": "Morgen",
-                                        "status": false
-                                    }
+                                    {"id":3,"titel":"ToDo 1","description":"Description for ToDo 1","prio":1,"dueDate":"2022-12-31","status":"IN_PROGRESS"},
+                                    {"id":3,"titel":"ToDo 1","description":"Description for ToDo 1","prio":1,"dueDate":"2022-12-31","status":"IN_PROGRESS"},
+                                    {"id":3,"titel":"ToDo 1","description":"Description for ToDo 1","prio":1,"dueDate":"2022-12-31","status":"IN_PROGRESS"}
                                 ]
                                 """
                 ));
