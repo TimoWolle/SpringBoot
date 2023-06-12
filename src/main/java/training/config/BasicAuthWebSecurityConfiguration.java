@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -13,9 +16,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import training.entity.Role;
 
 @Configuration
-@EnableWebSecurity
+@EnableMethodSecurity
 public class BasicAuthWebSecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -26,9 +30,9 @@ public class BasicAuthWebSecurityConfiguration {
                 .authorizeHttpRequests((auth)->auth
                     .requestMatchers("/index.html").permitAll()
                     .requestMatchers("/error").permitAll()
-                    .requestMatchers("/user/admin.html").hasRole("ADMIN")
-                    .requestMatchers("/user/dev.html").hasRole("DEV")
-                    .requestMatchers("/user/user.html").hasAnyRole("USER", "DEV", "ADMIN")
+//                    .requestMatchers("/user/admin.html").hasRole("ADMIN")
+//                    .requestMatchers("/user/dev.html").hasRole("ANALYST")
+//                    .requestMatchers("/user/user.html").hasAnyRole("USER", "ANALYST", "ADMIN")
                     .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .exceptionHandling()
@@ -44,25 +48,25 @@ public class BasicAuthWebSecurityConfiguration {
     }
     @Bean
     public InMemoryUserDetailsManager userDetailsService() {
-        UserDetails user = User
-                .withUsername("user")
-                .password(passwordEncoder().encode("user"))
-                .roles("USER", "USER1")
+        UserDetails member = User
+                .withUsername("member")
+                .password(passwordEncoder().encode("member"))
+                .authorities(Role.MEMBER.getGrantedPermissions())
                 .build();
 
         UserDetails admin = User
                 .withUsername("admin")
                 .password(passwordEncoder().encode("admin"))
-                .roles("ADMIN")
+                .authorities(Role.ADMIN.getGrantedPermissions())
                 .build();
 
-        UserDetails dev = User
-                .withUsername("dev")
-                .password(passwordEncoder().encode("dev"))
-                .roles("DEV")
+        UserDetails analyst = User
+                .withUsername("analyst")
+                .password(passwordEncoder().encode("analyst"))
+                .authorities(Role.ANALYST.getGrantedPermissions())
                 .build();
 
-        return new InMemoryUserDetailsManager(user, admin, dev);
+        return new InMemoryUserDetailsManager(member, admin, analyst);
     }
     @Bean
     public PasswordEncoder passwordEncoder() {
