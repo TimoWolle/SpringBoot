@@ -3,11 +3,13 @@ package training.service;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.annotation.Around;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import training.entity.ToDo;
 import training.entity.ToDoStatus;
 import training.respository.ToDoRepository;
+
 
 import java.util.List;
 
@@ -37,8 +39,9 @@ public class ToDoService {
         return todoRespository.findById(id).orElseThrow(()->new EntityNotFoundException(String.valueOf(id)));
     }
     public List<ToDo> getAllTodos(){
-        return todoRespository.findAll();
+        return todoRespository.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
+
     public List<ToDo> getCompletedTodos(){
         return todoRespository.findByStatus(ToDoStatus.COMPLETED);
     }

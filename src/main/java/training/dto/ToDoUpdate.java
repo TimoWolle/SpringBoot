@@ -20,6 +20,10 @@ public class ToDoUpdate {
     @NotNull
     private Integer prio;
     @NotBlank
+    private String description;
+    @NotBlank
+    private String titel;
+    @NotBlank
     private String dueDate;
     @NotNull
     private ToDoStatus status;
